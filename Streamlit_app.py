@@ -2,9 +2,9 @@ import streamlit as st
 import pickle
 
 # Load the model
-load = open('model.pkl', 'rb')
-model = pickle.load(load)
-load.close()
+model_file = open(file_name, 'rb')
+loaded_model = pickle.load(model_file)
+model_file.close()
 
 def main():
     st.title('Bankruptcy Prevention App')
