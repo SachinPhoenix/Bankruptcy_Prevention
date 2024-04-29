@@ -1,12 +1,23 @@
 import streamlit as st
-import joblib
+import pickle
 import warnings
 
 # Ignore warnings
 warnings.filterwarnings("ignore")
 
 # Load the model
-model = joblib.load('model.pkl')
+load = open('model.pkl', 'rb')
+model = pickle.load(load)
+load.close()
+
+# Prediction function
+def predict(Industrial_Risk, Management_Risk, Financial_Flexibility, Credibility, Competitiveness, Operating_Risk):
+    try:
+        prediction = model.predict([[Industrial_Risk, Management_Risk, Financial_Flexibility, Credibility, Competitiveness, Operating_Risk]])
+        return prediction[0]  # Use prediction[0] to get the actual prediction value
+    except Exception as e:
+        st.error(f"An error occurred: {str(e)}")
+
 
 def main():
     st.title('Bankruptcy Prevention App')
@@ -36,17 +47,12 @@ def main():
     competitiveness = st.slider('*Select Competitiveness*', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
     operating_risk = st.slider('*Select Operating Risk*', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
 
-    # Button to trigger prediction
     if st.button('Predict'):
-        # Prepare the input data as a list
-        data = [industrial_risk, management_risk, financial_flexibility, credibility, competitiveness, operating_risk]
-
-        prediction = model.predict([data])[0]
-
-        if prediction == 0:
-            st.success("### Prediction: Not Bankruptcy")
+        Result = predict(Industrial_Risk, Management_Risk, Financial_Flexibility, Credibility, Competitiveness, Operating_Risk)
+        if Result == 0:
+            st.markdown('<h1 style="color: red; font-size: 36px;">Prediction: Bankruptcy</h1>', unsafe_allow_html=True)
         else:
-            st.error("### Prediction: Bankruptcy")
+            st.markdown('<h1 style="color: green; font-size: 36px;">Prediction: Non-Bankruptcy</h1>', unsafe_allow_html=True)
 
 if _name_ == '_main_':
     main()
