@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 
 # Load the model
+file_name = 'model.pkl'
 model_file = open(file_name, 'rb')
 loaded_model = pickle.load(model_file)
 model_file.close()
