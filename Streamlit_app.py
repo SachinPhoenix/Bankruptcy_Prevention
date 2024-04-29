@@ -1,15 +1,15 @@
 import streamlit as st
-import pickle
+import joblib
+import warnings
+
+# Ignore warnings
+warnings.filterwarnings("ignore")
 
 # Load the model
-load = open('model.pkl', 'rb')
-model = pickle.load(load)
-load.close()
+model = joblib.load('model.pkl')
 
 def main():
     st.title('Bankruptcy Prevention App')
-
-   
 
     def add_bg_from_url():
         st.markdown(
@@ -27,14 +27,14 @@ def main():
 
     add_bg_from_url()
     st.markdown("<span style='font-size: 18px;'>Enter data for prediction:</span>", unsafe_allow_html=True)
-    industrial_risk = st.slider('**Select Industrial Risk**', min_value=0.0, max_value=1.0, step=0.1, value=0.0,
+    industrial_risk = st.slider('*Select Industrial Risk*', min_value=0.0, max_value=1.0, step=0.1, value=0.0,
                                 format="%.2f")
-    management_risk = st.slider('**Select Management Risk**', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
-    financial_flexibility = st.slider('**Select Financial Flexibility**', min_value=0.0, max_value=1.0, step=0.1,
+    management_risk = st.slider('*Select Management Risk*', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
+    financial_flexibility = st.slider('*Select Financial Flexibility*', min_value=0.0, max_value=1.0, step=0.1,
                                       value=0.0)
-    credibility = st.slider('**Select Credibility**', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
-    competitiveness = st.slider('**Select Competitiveness**', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
-    operating_risk = st.slider('**Select Operating Risk**', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
+    credibility = st.slider('*Select Credibility*', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
+    competitiveness = st.slider('*Select Competitiveness*', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
+    operating_risk = st.slider('*Select Operating Risk*', min_value=0.0, max_value=1.0, step=0.1, value=0.0)
 
     # Button to trigger prediction
     if st.button('Predict'):
@@ -48,5 +48,5 @@ def main():
         else:
             st.error("### Prediction: Bankruptcy")
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     main()
